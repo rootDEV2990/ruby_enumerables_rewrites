@@ -111,4 +111,4 @@ module Enumerable
   def multiply_els(array)
     array.to_a.my_inject(1) { |a, b| a * b }
   end
-  end
+end
