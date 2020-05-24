@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - "README.md"
+    - "tests.rb"
     - "Guardfile"
     - "Rakefile"
   DisplayCopNames: true
