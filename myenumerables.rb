@@ -42,7 +42,7 @@ module Enumerable
         return false
       end
     end
-    return true
+    true
   end
 
   def my_any?(*query)
