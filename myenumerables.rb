@@ -79,7 +79,7 @@ module Enumerable
     count = []
     array = to_a
     if block_given?
-      length.times do |item| 
+      length.times do |item|
         count.push(item) if yield(item)
       end
       p count.length - 1
