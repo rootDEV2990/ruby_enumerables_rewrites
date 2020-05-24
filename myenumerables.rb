@@ -47,15 +47,15 @@ module Enumerable
 
   def my_any?(*query)
     if block_given?
-      to_a.length.times { |item| return true if yield(item) }
+      length.times { |item| return true if yield(item) }
     elsif query.is_a? Regexp
-      to_a.length.times { |item| return true if item == query }
+      length.times { |item| return true if item == query }
     elsif query.is_a? Class
-      to_a.length.times { |item| return true if item.is_a?(query) }
+      length.times { |item| return true if item.is_a?(query) }
     elsif query.is_a? Numeric or query.is_a? String
-      to_a.length.times { |item| return true if item == query }
+      length.times { |item| return true if item == query }
     else
-      to_a.length.times { |item| return true if item }
+      length.times { |item| return true if item }
     end
     false
   end
@@ -79,10 +79,10 @@ module Enumerable
     count = []
     array = to_a
     if block_given?
-      self.length.times do |item| 
+      length.times do |item| 
         count.push(item) if yield(item)
       end
-      p count.length-1
+      p count.length - 1
     elsif !query.nil?
       array.my_each { |item| count.push(item) if item == query }
       count.length
@@ -103,20 +103,20 @@ module Enumerable
     array
   end
 
-  def my_inject(arg1 = nil, arg2 = nil)
-    obj = self
-    obj = obj.to_a unless obj.is_a?(Array)
-    result = 0
-    result = arg1 if arg1.is_a?(Numeric)
-    result = '' if obj[0].is_a?(String)
+  def my_inject(query = nil, query2 = nil)
+    array = to_a
     if block_given?
-      length.times { |i| result = yield(result, i) }
-    elsif arg1.is_a?(Symbol)
-      length.times { |i| result = result.send(arg1, i) }
+      array.push(query)
+      block_return = 1
+      array.my_each { |item| block_return = yield(block_return, item) }
+      block_return
+    elsif query2.nil? and query.is_a? Symbol
+      array.reduce(0) { |sum, num| sum << num.public_send(query, num + 1) }
+      sum
     else
-      length.times { |i| result = result.send(arg2, i) }
+      array.push(query)
+      array
     end
-    result
   end
 
   def multiply_els(array)
