@@ -42,7 +42,7 @@ module Enumerable
         return false
       end
     end
-    true
+    return true
   end
 
   def my_any?(*query)
@@ -76,19 +76,16 @@ module Enumerable
   end
 
   def my_count(query = nil)
-    count = []
-    array = to_a
+    array = self
+    count = 0
     if block_given?
-      length.times do |item|
-        count.push(item) if yield(item)
-      end
-      p count.length - 1
+      array.length.times { |item| count += 1 if yield(array[item]) }
     elsif !query.nil?
-      array.my_each { |item| count.push(item) if item == query }
-      count.length
-    else
-      array.length
+      array.length.times { |item| count += 1 if array[item] == query }
+    elsif query.nil?
+      count = array.length
     end
+    count
   end
 
   def my_map
