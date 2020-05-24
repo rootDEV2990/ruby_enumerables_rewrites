@@ -2,7 +2,7 @@ module Enumerable
   def my_each
     index = 0
     while index < size
-      return to_a unless block_given?
+      return self.to_enum unless block_given?
 
       yield self[index]
       index += 1
