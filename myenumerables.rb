@@ -31,7 +31,7 @@ module Enumerable
   def my_all?(query = nil)
     if query.class == Class
       my_each do |idx|
-        return false unless idx.class ==  query
+        return false unless idx.class == query
       end
     elsif query.class == String or query.class == Integer
       my_each do |idx|
@@ -47,7 +47,7 @@ module Enumerable
       end
     elsif query.nil?
       my_each do |idx|
-        return false unless !idx.nil?
+        return false if !idx.nil?
       end
     end
     true
@@ -111,7 +111,6 @@ module Enumerable
   def my_inject(query = nil)
     array = to_a
     block_return = ''.to_i
-    results = []
     if block_given?
       block_return = array.shift
       for item in array do
