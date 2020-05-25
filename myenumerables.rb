@@ -29,15 +29,15 @@ module Enumerable
   end
 
   def my_all?(query = nil)
-    if query.is_a? Class
+    if query.class == Class
       my_each do |idx|
-        return false unless idx.is_a? query
+        return false unless idx.class ==  query
       end
-    elsif query.is_a? String or query.is_a? Integer
+    elsif query.class == String or query.class == Integer
       my_each do |idx|
         return false unless idx == query
       end
-    elsif query.is_a? Regexp
+    elsif query.class == Regexp
       my_each do |idx|
         return false unless idx.match(query)
       end
@@ -56,11 +56,11 @@ module Enumerable
   def my_any?(*query)
     if block_given?
       length.times { |item| return true if yield(item) }
-    elsif query.is_a? Regexp
+    elsif query.class == Regexp
       length.times { |item| return true if item == query }
-    elsif query.is_a? Class
-      length.times { |item| return true if item.is_a?(query) }
-    elsif query.is_a? Numeric or query.is_a? String
+    elsif query.class == Class
+      length.times { |item| return true if item.class == query }
+    elsif query.class == Numeric or query.class == String
       length.times { |item| return true if item == query }
     else
       length.times { |item| return true if item }
@@ -71,11 +71,11 @@ module Enumerable
   def my_none?(*query)
     if block_given?
       length.times { |item| return false if yield(item) }
-    elsif query.is_a? Regexp
+    elsif query.class == Regexp
       length.times { |item| return false if item == query }
-    elsif query.is_a? Class
-      length.times { |item| return false if item.is_a?(query) }
-    elsif query.is_a? Numeric or query.is_a? String
+    elsif query.class == Class
+      length.times { |item| return false if item.class == query }
+    elsif query.class == Numeric or query.class == String
       length.times { |item| return false if item == query }
     else
       length.times { |item| return false if item }
@@ -108,14 +108,17 @@ module Enumerable
     array
   end
 
-  def my_inject(query = nil, query2 = nil)
+  def my_inject(query = nil)
     array = to_a
+    block_return = ''.to_i
+    results = []
     if block_given?
-      array.push(query)
-      block_return = 1
-      array.my_each { |item| block_return = yield(block_return, item) }
+      block_return = array.shift
+      for item in array do
+        block_return = yield(block_return, item)
+      end
       block_return
-    elsif query2.nil? and query.is_a? Symbol
+    elsif query.class == Symbol
       array.reduce(0) { |sum, num| sum << num.public_send(query, num + 1) }
       sum
     else
