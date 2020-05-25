@@ -29,17 +29,25 @@ module Enumerable
   end
 
   def my_all?(query = nil)
-    my_each do |idx|
-      if query.is_a? Class
+    if query.is_a? Class
+      my_each do |idx|
         return false unless idx.is_a? query
-      elsif query.is_a? String or query.is_a? Integer
+      end
+    elsif query.is_a? String or query.is_a? Integer
+      my_each do |idx|
         return false unless idx == query
-      elsif query.is_a? Regexp
+      end
+    elsif query.is_a? Regexp
+      my_each do |idx|
         return false unless idx.match(query)
-      elsif block_given?
+      end
+    elsif block_given?
+      my_each do |idx|
         return false unless yield(idx)
-      elsif !empty?
-        return false
+      end
+    elsif query.nil?
+      my_each do |idx|
+        return false unless !idx.nil?
       end
     end
     true
