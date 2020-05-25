@@ -47,7 +47,7 @@ module Enumerable
       end
     elsif query.nil?
       my_each do |idx|
-        return false if !idx.nil?
+        return false unless !idx.nil?
       end
     end
     true
