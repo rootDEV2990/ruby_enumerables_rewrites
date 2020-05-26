@@ -150,7 +150,7 @@ module Enumerable
       end
       sum
     elsif query.class == Symbol
-        array = array.reduce(0) do |sum, num|
+      array = array.reduce(0) do |sum, num|
         sum = sum.public_send(query, num)
       end
       array
