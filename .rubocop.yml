@@ -57,5 +57,7 @@ Style/NegatedUnless:
   Enabled: false
 Style/For:
   Enabled: false
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
 
 

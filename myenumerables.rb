@@ -1,10 +1,10 @@
 module Enumerable
   def my_each
     index = 0
-    array = self.to_a
+    array = to_a
     if block_given?
       for item in 0..array.length - 1
-          yield(self[item])
+        yield(self[item])
       end
     else
       while index < array.size
@@ -36,7 +36,7 @@ module Enumerable
   end
 
   def my_all?(query = nil)
-    array = self.to_a
+    array = to_a
     if query.class == Class
       my_each do |idx|
         return false unless idx.class == query
