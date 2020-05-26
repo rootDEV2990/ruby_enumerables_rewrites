@@ -109,16 +109,24 @@ module Enumerable
     count
   end
 
-  def my_map
-    return to_enum unless block_given?
-
-    array = []
-    if block_given?
+  def my_map(query = nil)
+    if query.nil?
+      array = []
       to_a.my_each do |item|
-        array.push(yield(item))
+        array.push(yield(item)) if block_given?
       end
+      array
+    elsif query.class == Proc or block_given?
+      array = []
+      p "blocks here"
+      my_each do |item|
+        #p item
+        array << query.call(item)
+      end
+      array
+    else  
+      return to_enum :my_map unless block_given?
     end
-    array
   end
 
   def my_inject(query = nil, query2 = nil)
