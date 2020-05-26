@@ -118,13 +118,11 @@ module Enumerable
       array
     elsif query.class == Proc or block_given?
       array = []
-      p "blocks here"
       my_each do |item|
-        #p item
         array << query.call(item)
       end
       array
-    else  
+    else
       return to_enum :my_map unless block_given?
     end
   end
