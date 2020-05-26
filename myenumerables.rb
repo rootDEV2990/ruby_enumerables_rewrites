@@ -145,8 +145,8 @@ module Enumerable
       sum
     elsif query.class == Symbol
       total = ''.to_i
-      array.reduce(0) do |sum, num| 
-        sum = sum.public_send(query, num) 
+      array.reduce(0) do |sum, num|
+        sum = sum.public_send(query, num)
         total = sum
       end
       total
