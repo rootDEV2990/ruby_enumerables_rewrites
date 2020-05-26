@@ -1,12 +1,19 @@
 module Enumerable
   def my_each
     index = 0
-    while index < size
-      return to_enum(:my_each) unless block_given?
+    array = self.to_a
+    if block_given?
+      for item in 0..array.length - 1
+          yield(self[item])
+      end
+    else
+      while index < array.size
+        return to_enum(:my_each) unless block_given?
 
-      yield self[index]
-      index += 1
-      return self
+        yield self[index]
+        index += 1
+        return self
+      end
     end
   end
 
@@ -29,6 +36,7 @@ module Enumerable
   end
 
   def my_all?(query = nil)
+    array = self.to_a
     if query.class == Class
       my_each do |idx|
         return false unless idx.class == query
@@ -47,6 +55,10 @@ module Enumerable
       end
     elsif query.nil?
       my_each do |idx|
+        return false if idx === false
+      end
+    else
+      my_each do |idx|
         return false unless !idx.nil?
       end
     end
@@ -55,30 +67,32 @@ module Enumerable
 
   def my_any?(*query)
     if block_given?
-      length.times { |item| return true if yield(item) }
+      length.times { |item| return true unless yield(item) }
     elsif query.class == Regexp
-      length.times { |item| return true if item == query }
+      length.times { |item| return true unless item == query }
     elsif query.class == Class
-      length.times { |item| return true if item.class == query }
+      length.times { |item| return true unless item.class == query }
     elsif query.class == Numeric or query.class == String
-      length.times { |item| return true if item == query }
+      length.times { |item| return true unless item == query }
+    elsif query.class == Proc
+      length.times { |item| return true unless yield(item) }
     else
-      length.times { |item| return true if item }
+      length.times { |item| return true unless item }
     end
     false
   end
 
   def my_none?(*query)
     if block_given?
-      length.times { |item| return false if yield(item) }
+      length.times { |item| return false unless yield(item) }
     elsif query.class == Regexp
-      length.times { |item| return false if item == query }
+      length.times { |item| return false unless item == query }
     elsif query.class == Class
-      length.times { |item| return false if item.class == query }
+      length.times { |item| return false unless item.class == query }
     elsif query.class == Numeric or query.class == String
-      length.times { |item| return false if item == query }
+      length.times { |item| return false unless item == query }
     else
-      length.times { |item| return false if item }
+      length.times { |item| return false unless item }
     end
     true
   end
@@ -108,15 +122,28 @@ module Enumerable
     array
   end
 
-  def my_inject(query = nil)
+  def my_inject(query = nil, query2 = nil)
     array = to_a
     block_return = ''.to_i
-    if block_given?
+    if block_given? and query.nil?
       block_return = array.shift
       for item in array do
         block_return = yield(block_return, item)
       end
       block_return
+    elsif block_given? and query2.nil? and query.class == Integer
+      array.push(query)
+      block_return = array.shift
+      for item in array do
+        block_return = yield(block_return, item)
+      end
+      block_return
+    elsif query2.class == Symbol
+      sum = query
+      array.my_each do |item|
+        sum = sum.public_send(query2, item)
+      end
+      sum
     elsif query.class == Symbol
       array.reduce(0) { |sum, num| sum << num.public_send(query, num + 1) }
       sum
