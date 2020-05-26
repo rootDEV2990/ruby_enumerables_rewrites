@@ -36,7 +36,6 @@ module Enumerable
   end
 
   def my_all?(query = nil)
-    array = to_a
     if query.class == Class
       my_each do |idx|
         return false unless idx.class == query
