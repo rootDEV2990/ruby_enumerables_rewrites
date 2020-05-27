@@ -103,7 +103,11 @@ module Enumerable
   end
 
   def my_map(query = nil)
+
+    
     if query.nil?
+      return to_enum :my_map unless block_given?
+
       array = []
       to_a.my_each do |item|
         array.push(yield(item)) if block_given?
@@ -115,8 +119,6 @@ module Enumerable
         array << query.call(item)
       end
       array
-    else
-      return to_enum :my_map unless block_given?
     end
   end
 
