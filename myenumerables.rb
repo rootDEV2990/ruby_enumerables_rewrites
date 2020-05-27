@@ -36,62 +36,55 @@ module Enumerable
   end
 
   def my_all?(query = nil)
-    if query.class == Class
-      my_each do |idx|
-        return false unless idx.class == query
-      end
-    elsif query.class == String or query.class == Integer
-      my_each do |idx|
-        return false unless idx == query
-      end
-    elsif query.class == Regexp
-      my_each do |idx|
-        return false unless idx.match(query)
-      end
-    elsif block_given?
-      my_each do |idx|
-        return false unless yield(idx)
-      end
-    elsif query.nil?
-      my_each do |idx|
-        return false if idx === false
-      end
+    obj = self
+    if block_given?
+      length.times { |index| return false unless yield obj[index] }
+    elsif query.is_a? Regexp
+      length.times { |index| return false unless obj[index].match query }
+    elsif query.is_a? Class
+      length.times { |index| return false unless obj[index].is_a? query }
+    elsif query.is_a? Numeric or query.is_a? String
+      length.times { |index| return false unless obj[index] == query }
+    elsif query.is_a? Proc
+      length.times { |index| return false unless yield(index) }
     else
-      my_each do |idx|
-        return false unless !idx.nil?
-      end
+      length.times { |index| return false unless obj[index] }
     end
     true
   end
 
-  def my_any?(*query)
+  def my_any?(query = nil)
+    obj = self
     if block_given?
-      length.times { |item| return true unless yield(item) }
-    elsif query.class == Regexp
-      length.times { |item| return true unless item == query }
-    elsif query.class == Class
-      length.times { |item| return true unless item.class == query }
-    elsif query.class == Numeric or query.class == String
-      length.times { |item| return true unless item == query }
-    elsif query.class == Proc
-      length.times { |item| return true unless yield(item) }
+      length.times { |index| return true if yield obj[index] }
+    elsif query.is_a? Regexp
+      length.times { |index| return true if obj[index].match query }
+    elsif query.is_a? Class
+      length.times { |index| return true if obj[index].is_a? query }
+    elsif query.is_a? Numeric or query.is_a? String
+      length.times { |index| return true if obj[index] == query }
+    elsif query.is_a? Proc
+      length.times { |index| return true if yield(index) }
     else
-      length.times { |item| return true unless item }
+      length.times { |index| return true if obj[index] }
     end
     false
   end
 
-  def my_none?(*query)
+  def my_none?(query = nil)
+    obj = self
     if block_given?
-      length.times { |item| return false unless yield(item) }
-    elsif query.class == Regexp
-      length.times { |item| return false unless item == query }
-    elsif query.class == Class
-      length.times { |item| return false unless item.class == query }
-    elsif query.class == Numeric or query.class == String
-      length.times { |item| return false unless item == query }
+      length.times { |index| return false if yield obj[index] }
+    elsif query.is_a? Regexp
+      length.times { |index| return false if obj[index].match query }
+    elsif query.is_a? Class
+      length.times { |index| return false if obj[index].is_a? query }
+    elsif query.is_a? Numeric or query.is_a? String
+      length.times { |index| return false if obj[index] == query }
+    elsif query.is_a? Proc
+      length.times { |index| return false if yield(index) }
     else
-      length.times { |item| return false unless item }
+      length.times { |index| return false if obj[index] }
     end
     true
   end
