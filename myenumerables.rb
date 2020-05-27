@@ -103,8 +103,6 @@ module Enumerable
   end
 
   def my_map(query = nil)
-
-    
     if query.nil?
       return to_enum :my_map unless block_given?
 
