@@ -26,4 +26,36 @@ describe Enumerable do
             expect(test1 == test2)
         end
     end
+
+    describe '.my_any?' do
+        it 'Makes self into array unless block is given and adds index too' do
+            test1 = arr.my_any?(100)
+            test2 = arr.any?(100)
+            expect(test1 == test2)
+        end
+    end
+
+    describe '.my_count' do
+        it 'Makes self into array unless block is given and adds index too' do
+            test1 = arr.my_count
+            test2 = arr.count
+            expect(test1 == test2)
+        end
+    end
+
+    describe '.my_map' do
+        it 'Makes self into array unless block is given and adds index too' do
+            test1 = arr.my_map
+            test2 = arr.map
+            expect(test1 == test2)
+        end
+    end
+
+    describe '.my_inject' do
+        it 'Makes self into array unless block is given and adds index too' do
+            test1 = arr.my_inject(0) { |total, n| total + n }
+            test2 = arr.inject(0) { |total, n| total + n }
+            expect(test1 == test2)
+        end
+    end
 end
