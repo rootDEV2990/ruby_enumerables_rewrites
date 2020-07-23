@@ -31,9 +31,15 @@ describe Enumerable do
 
     describe '.my_select' do
         it 'Take an array and filters block_given' do
-            test1 = arr.my_select { |item| item == 20}
-            test2 = arr.select { |item| item == 20}
-            expect(test1 == test2)
+            expect(arr.my_select).to be_a(Enumerable)
+        end
+        it'It pushes array when item matches criteria' do
+            result = []
+            arr.each do |element| 
+                result << element if element == 20
+            end
+            test = arr.my_select {|element| element == 20}
+            expect(test).to eq(result)
         end
     end
 
