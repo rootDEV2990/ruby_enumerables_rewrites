@@ -43,11 +43,21 @@ describe Enumerable do
         end
     end
 
-    describe '.my_any?' do
+    describe '.my_any?' do 
+        it 'When there is no block given truthy value' do
+            expect(arr.my_all?).to be_truthy
+        end
         it 'Take an array and filters to find if an element is included to return true or false' do
-            test1 = arr.my_any?(100)
-            test2 = arr.any?(100)
-            expect(test1 == test2)
+            hash = {}
+            for item in arr do 
+                if arr[item] == arr[item.next]
+                    hash[item] = 1 
+                else
+                    hash[item] = 0
+                end
+            end
+            result = hash.has_value?(0)
+            expect(result).to be_truthy 
         end
     end
 
