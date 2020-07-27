@@ -3,7 +3,7 @@ require './myenumerables.rb'
 describe Enumerable do 
     arr = [4, 20, 3, 22]
     query = 4
-    query_symbol = :*
+    query_symbol = :+
 
     describe '.my_each' do
         it 'Makes self into array unless block is given' do
@@ -136,19 +136,17 @@ describe Enumerable do
     #Inject needed to done again
     describe '.my_inject' do
         it 'it will pass each element and accumulate each sequentially' do
-            sum = 0
+            sum = query
             arr2 = [3,1]
             test1 = arr2.reduce(query, query_symbol)
             for element in arr2 do
-                p "element"
-                p element
-                p "sum"
-                p sum
-                p "sum =  sum + element"
-              p sum =  sum + element
+                p "element from loop #{element}"
+                p "sum from loop #{sum}"
+                p "sum #{sum} =  sum #{sum} + element #{element}"
+                sum =  sum.public_send(query_symbol, element)
+                p "total from loop is #{sum}"
             end
-            p 'before sum'
-            p sum
+            p "total after sum loop #{sum}"
             sum = sum.public_send(query_symbol, query)
             p 'should be 16'
             p sum
