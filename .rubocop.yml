@@ -4,7 +4,7 @@ AllCops:
     - "tests.rb"
     - "Guardfile"
     - "Rakefile"
-    - "spec/spec_helper.rb"
+    - ""
   DisplayCopNames: true
 Layout/LineLength:
   Max: 125
