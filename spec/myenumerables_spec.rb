@@ -137,22 +137,10 @@ describe Enumerable do
     describe '.my_inject' do
         it 'it will pass each element and accumulate each sequentially' do
             sum = query
-            arr2 = [3,1]
-            test1 = arr2.reduce(query, query_symbol)
-            for element in arr2 do
-                p "element from loop #{element}"
-                p "sum from loop #{sum}"
-                p "sum #{sum} =  sum #{sum} + element #{element}"
+            for element in arr do
                 sum =  sum.public_send(query_symbol, element)
-                p "total from loop is #{sum}"
             end
-            p "total after sum loop #{sum}"
-            sum = sum.public_send(query_symbol, query)
-            p 'should be 16'
-            p sum
-            p 'ruby inject is this'
-            p arr2.inject(query, query_symbol)
-            expect(test1 == test2)
+            expect(sum).to eq(arr.inject(query, query_symbol))
         end
     end
 end
