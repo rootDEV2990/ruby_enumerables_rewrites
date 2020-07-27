@@ -2,6 +2,7 @@ require './myenumerables.rb'
 
 describe Enumerable do 
     arr = [4, 20, 3, 22]
+    query = 4
 
     describe '.my_each' do
         it 'Makes self into array unless block is given' do
@@ -43,7 +44,7 @@ describe Enumerable do
         end
     end
 
-    describe '.my_any?' do 
+    describe '.my_all?' do 
         it 'When there is no block given truthy value' do
             expect(arr.my_all?).to be_truthy
         end
@@ -61,11 +62,57 @@ describe Enumerable do
         end
     end
 
+    describe '.my_any?' do 
+        it 'Takes a block and return true if item in block matches' do
+            expect(arr.my_any?(nil)).to be_truthy
+        end
+        it 'Take an array and filters to find if an element is included to return true or false' do
+            hash = {}
+            for item in arr do 
+                if item == query
+                    hash[item] = 1 
+                else
+                    hash[item] = 0
+                end
+            end
+            result = hash.has_value?(1)
+            expect(result).to be_truthy 
+        end
+    end
+
+    describe '.my_none?' do
+        it 'Takes a block and return false if arr contains items' do
+            expect(arr.my_none?).to be_falsy
+        end
+        it 'Take an array and filters to find if an element is included to return true or false' do
+            hash = {}
+            for item in arr do 
+                if item == query
+                    hash[item] = 1 
+                else
+                    hash[item] = 0
+                end
+            end
+            result = false if hash.has_value?(1)
+            expect(result).to be_falsy 
+        end
+    end
+
     describe '.my_count' do
-        it 'Take an array and counts how many elements meet the criteria' do
-            test1 = arr.my_count
-            test2 = arr.count
-            expect(test1 == test2)
+        it 'If no block is given counts length of array' do
+            expect(arr.my_count).to eq(arr.length)            
+        end
+        it 'If theres a perameter iterates and counts matching items' do 
+            hash = {}
+            for item in arr do 
+                if item == query
+                    hash[item] = 1 
+                else
+                    hash[item] = 0
+                end
+            end
+            result = hash.count{|x| x[1] == 1}
+            expect(result).to eq(arr.count(query))
         end
     end
 
