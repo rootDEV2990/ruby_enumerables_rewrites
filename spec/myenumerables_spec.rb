@@ -3,6 +3,7 @@ require './myenumerables.rb'
 describe Enumerable do 
     arr = [4, 20, 3, 22]
     query = 4
+    query_symbol = :*
 
     describe '.my_each' do
         it 'Makes self into array unless block is given' do
@@ -135,8 +136,18 @@ describe Enumerable do
     #Inject needed to done again
     describe '.my_inject' do
         it 'it will pass each element and accumulate each sequentially' do
-            test1 = arr.my_inject(0) { |total, n| total + n }
-            test2 = arr.inject(0) { |total, n| total + n }
+            sum = Integer
+            arr2 = [3,1]
+            (arr2.length - 1).times do |index|
+               sum = arr2[index] + arr2[index.next]
+            end
+            p 'before sum'
+            p sum
+            sum = sum.public_send(query_symbol, query)
+            p 'should be 16'
+            p sum
+            p 'ruby inject is this'
+            p arr2.inject(query, query_symbol)
             expect(test1 == test2)
         end
     end
