@@ -117,13 +117,22 @@ describe Enumerable do
     end
 
     describe '.my_map' do
-        it 'Takes an array and transforms it.' do
-            test1 = arr.my_map
-            test2 = arr.map
-            expect(test1 == test2)
+        it 'Takes an array and return to enumerable if no block is given.' do
+            expect(arr.my_map).to be_a(Enumerable)
+        end
+        it 'If parameter is given push to a new array' do
+            result = []
+            result_ruby = []
+            arr.my_map  do |element| 
+                if element == query
+                    result << element
+                end
+            end
+            arr.map { |element| result_ruby << element if element == query }
+            expect(result).to eq(result_ruby)
         end
     end
-
+    #Inject needed to done again
     describe '.my_inject' do
         it 'it will pass each element and accumulate each sequentially' do
             test1 = arr.my_inject(0) { |total, n| total + n }
