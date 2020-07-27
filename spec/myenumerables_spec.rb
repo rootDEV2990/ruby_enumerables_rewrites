@@ -136,10 +136,16 @@ describe Enumerable do
     #Inject needed to done again
     describe '.my_inject' do
         it 'it will pass each element and accumulate each sequentially' do
-            sum = Integer
+            sum = 0
             arr2 = [3,1]
-            (arr2.length - 1).times do |index|
-               sum = arr2[index] + arr2[index.next]
+            test1 = arr2.reduce(query, query_symbol)
+            for element in arr2 do
+                p "element"
+                p element
+                p "sum"
+                p sum
+                p "sum =  sum + element"
+              p sum =  sum + element
             end
             p 'before sum'
             p sum
