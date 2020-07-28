@@ -2,7 +2,6 @@ require './myenumerables.rb'
 
 describe Enumerable do
   arr = [4, 20, 3, 22]
-  str = %w(s w e e)
   query = 4
   query_symbol = :+
 
@@ -11,7 +10,7 @@ describe Enumerable do
       expect(arr.my_each).to be_a(Enumerable)
     end
     it 'if block is given' do
-      expect(arr.my_each { |items| items % 2 == 0 }).to eq(arr.each { |items| items % 2 == 0 })
+      expect(arr.my_each(&:even?)).to eq(arr.each(&:even?))
     end
   end
 
@@ -106,7 +105,7 @@ describe Enumerable do
       expect(arr.my_count(query)).to eq(arr.count(query))
     end
     it 'If a block is given tests' do
-      expect(arr.my_count {|item| item % 2 == 0}).to eq(arr.count {|item| item % 2 == 0})
+      expect(arr.my_count(&:even?)).to eq(arr.count(&:even?))
     end
   end
 
