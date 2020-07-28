@@ -123,19 +123,19 @@ describe Enumerable do
       expect(result).to eq(result_ruby)
     end
   end
-  
-  describe ‘.my_inject’ do
-    it ‘this will test my_inject with a symbol’ do
-        expect(arr.my_inject(:+)).to eq(49)
+
+  describe '.my_inject' do
+    it 'this will test my_inject with a symbol' do
+      expect(arr.my_inject(query_symbol)).to eq(49)
     end
-    it ‘this will test my_inject with a accumulator value and a symbol’ do
-        expect(arr.my_inject(4, :*)).to eq(21120)
+    it 'this will test my_inject with a accumulator value and a symbol' do
+      expect(arr.my_inject(4, :*)).to eq(21_120)
     end
-    it ‘this will test my_inject with a block and a accumulator’ do
-        expect(arr.my_inject(4) {|total, item| total + item }).to eq(53)
+    it 'this will test my_inject with a block and a accumulator' do
+      expect(arr.my_inject(4) { |total, item| total + item }).to eq(53)
     end
-    it ‘this will test my_inject with a block only’ do
-        expect(arr.my_inject {|total, item| total + item }).to eq(49)
+    it 'this will test my_inject with a block only' do
+      expect(arr.my_inject { |total, item| total + item }).to eq(49)
     end
   end
 end
