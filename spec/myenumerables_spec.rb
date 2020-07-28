@@ -2,6 +2,7 @@ require './myenumerables.rb'
 
 describe Enumerable do
   arr = [4, 20, 3, 22]
+  str = %w(s w e e)
   query = 4
   query_symbol = :+
 
@@ -10,9 +11,7 @@ describe Enumerable do
       expect(arr.my_each).to be_a(Enumerable)
     end
     it 'if block is given' do
-      result = []
-      arr.my_each { |item| result << item }
-      expect(arr).to eq(result)
+      expect(arr.my_each { |items| items % 2 == 0 }).to eq(arr.each { |items| items % 2 == 0 })
     end
   end
 
@@ -38,10 +37,10 @@ describe Enumerable do
     it 'It pushes array when item matches criteria' do
       result = []
       arr.each do |element|
-        result << element if element == 20
+        result << element if element == query
       end
-      test = arr.my_select { |element| element == 20 }
-      expect(test).to eq(result)
+      tests = arr.my_select { |element| element == query }
+      expect(tests).to eq(result)
     end
   end
 
@@ -104,16 +103,10 @@ describe Enumerable do
       expect(arr.my_count).to eq(arr.length)
     end
     it 'If theres a perameter iterates and counts matching items' do
-      hash = {}
-      for item in arr do
-        hash[item] = if item == query
-                       1
-                     else
-                       0
-                     end
-      end
-      result = hash.count { |x| x[1] == 1 }
-      expect(result).to eq(arr.count(query))
+      expect(arr.my_count(query)).to eq(arr.count(query))
+    end
+    it 'If a block is given tests' do
+      expect(arr.my_count {|item| item % 2 == 0}).to eq(arr.count {|item| item % 2 == 0})
     end
   end
 
