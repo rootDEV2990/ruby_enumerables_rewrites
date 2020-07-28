@@ -83,10 +83,10 @@ describe Enumerable do
       result = hash.value?(1)
       expect(result).to be_truthy
     end
-    it 'Will check class with my_all' do 
+    it 'Will check class with my_any' do 
       expect(arr.my_any?(Numeric)).to eq(arr.any?(Numeric))
     end
-    it 'Will check regex with my_all' do 
+    it 'Will check regex with my_any' do 
       expect(%w[ant bear cat].my_any?(/t/)).to eq(%w[ant bear cat].any?(/t/))
     end
   end
@@ -107,10 +107,10 @@ describe Enumerable do
       result = false if hash.value?(1)
       expect(result).to be_falsy
     end
-    it 'Will check class with my_all' do 
+    it 'Will check class with my_none' do 
       expect(arr.my_none?(Numeric)).to eq(arr.none?(Numeric))
     end
-    it 'Will check regex with my_all' do 
+    it 'Will check regex with my_none' do 
       expect(%w[ant bear cat].my_none?(/t/)).to eq(%w[ant bear cat].none?(/t/))
     end
   end
