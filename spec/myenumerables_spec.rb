@@ -50,11 +50,7 @@ describe Enumerable do
     it 'Take an array and filters to find if an element is included to return true or false' do
       hash = {}
       for item in arr do
-        hash[item] = if arr[item] == arr[item.next]
-                       1
-                     else
-                       0
-                     end
+        hash[item] =  arr[item] == arr[item.next] ? 1 : 0
       end
       result = hash.value?(0)
       expect(result).to be_truthy
@@ -74,11 +70,7 @@ describe Enumerable do
     it 'Take an array and filters to find if an element is included to return true or false' do
       hash = {}
       for item in arr do
-        hash[item] = if item == query
-                       1
-                     else
-                       0
-                     end
+        hash[item] = item == query ? 1 : 0
       end
       result = hash.value?(1)
       expect(result).to be_truthy
@@ -98,11 +90,7 @@ describe Enumerable do
     it 'Take an array and filters to find if an element is included to return true or false' do
       hash = {}
       for item in arr do
-        hash[item] = if item == query
-                       1
-                     else
-                       0
-                     end
+        hash[item] = item == query ? 1 : 0
       end
       result = false if hash.value?(1)
       expect(result).to be_falsy
