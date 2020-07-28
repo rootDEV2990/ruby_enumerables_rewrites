@@ -6,6 +6,7 @@ module Enumerable
       for item in 0..array.length - 1
         yield(self[item])
       end
+      array
     else
       while index < array.size
         return to_enum(:my_each) unless block_given?
